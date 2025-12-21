@@ -1,5 +1,10 @@
 // === CONFIG BACKEND ===
-const API_BASE = "http://127.0.0.1:5000"; // tu Flask local
+// En Vercel: usa el mismo dominio (ruta relativa).
+// En local: si abres el HTML con Live Server o file://, se usará Flask local.
+const API_BASE = (location.hostname === "127.0.0.1" || location.hostname === "localhost")
+  ? "http://127.0.0.1:5000"
+  : "";
+
 
 /* ========= Claves de LocalStorage ========= */
 const LS = {
@@ -148,7 +153,8 @@ document.addEventListener('click', async (ev) => {
   }
 
   try {
-    const res = await fetch(`${API_BASE}/api/dni?numero=${dni}`);
+    const res = await fetch(`${API_BASE}/api/dni?numero=${encodeURIComponent(dni)}`);
+
 
     let data = null;
     try { data = await res.json(); } catch (_) {}
