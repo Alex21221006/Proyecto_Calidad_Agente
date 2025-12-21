@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API Flask (debug)",
+      "type": "debugpy",              // 👈 antes decía "python"
+      "request": "launch",
+      "program": "${workspaceFolder}/api.py",
+      "console": "integratedTerminal",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "env": {
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1"
+      },
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

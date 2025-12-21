@@ -1,0 +1,35 @@
+{
+  // === ⚙️ CONFIGURACIÓN PRINCIPAL DE PYTHON ===
+  // Usar siempre el entorno virtual del proyecto
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+
+  // Asegura que el analizador (Pylance) detecte los paquetes de tu entorno
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}\\.venv\\Lib\\site-packages"
+  ],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+
+  // === 💡 FORMATO Y ESTILO DE CÓDIGO ===
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "python.formatting.provider": "autopep8",
+  "python.formatting.autopep8Args": ["--max-line-length", "120"],
+
+  // === 🧰 TERMINAL Y ENTORNO VIRTUAL ===
+  // Hace que la terminal integrada use automáticamente tu .venv
+  "terminal.integrated.env.windows": {
+    "VIRTUAL_ENV": "${workspaceFolder}\\.venv",
+    "PATH": "${workspaceFolder}\\.venv\\Scripts;${env:PATH}"
+  },
+
+  // === ✨ OPCIONAL: ESTILO DE EDITOR ===
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.tabSize": 4,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on"
+}
+
