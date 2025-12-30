@@ -3,6 +3,8 @@ name: Gentleman Guardian Angel (AI Review)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches: ["main"]
 
 jobs:
   review:
@@ -27,7 +29,27 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       - name: Run AI Review (only changed files)
+        shell: bash
         run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD > /tmp/changed_files.txt
-          cat /tmp/changed_files.txt | xargs git add
+          set -e
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+            echo "Evento: PR -> comparando contra $BASE"
+            git fetch origin "${{ github.base_ref }}" --depth=1 || true
+            git diff --name-only "$BASE"...HEAD > /tmp/changed_files.txt
+          else
+            echo "Evento: PUSH -> comparando contra commit anterior"
+            git diff --name-only HEAD~1...HEAD > /tmp/changed_files.txt || true
+          fi
+
+          echo "Archivos detectados:"
+          cat /tmp/changed_files.txt || true
+
+          if [ ! -s /tmp/changed_files.txt ]; then
+            echo "No hay archivos para revisar. Saliendo OK."
+            exit 0
+          fi
+
+          cat /tmp/changed_files.txt | xargs -r git add
           gga run
