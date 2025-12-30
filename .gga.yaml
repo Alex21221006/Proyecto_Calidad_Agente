@@ -1,0 +1,43 @@
+project:
+  name: Proyecto Calidad Agente Multibanco B&L
+  type: backend-api
+  language: python
+  framework: flask
+
+ai:
+  provider: gemini
+  model: gemini-pro
+
+review:
+  focus:
+    - code_quality
+    - security
+    - maintainability
+    - error_handling
+    - test_coverage
+
+rules:
+  - id: no-hardcoded-secrets
+    description: No permitir tokens, claves o secretos hardcodeados en el código.
+    severity: critical
+
+  - id: proper-error-handling
+    description: Los endpoints deben manejar errores y retornar códigos HTTP correctos.
+    severity: high
+
+  - id: test-existence
+    description: Todo endpoint debe tener al menos una prueba asociada.
+    severity: high
+
+  - id: code-readability
+    description: El código debe ser legible, con nombres claros y sin lógica innecesaria.
+    severity: medium
+
+  - id: unused-code
+    description: No debe existir código muerto o imports no utilizados.
+    severity: low
+
+output:
+  format: github-comment
+  fail_on:
+    - critical
