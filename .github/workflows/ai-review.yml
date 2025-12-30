@@ -16,6 +16,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Asegurar Node.js para poder usar npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install Gentleman Guardian Angel
         run: |
           git clone https://github.com/Gentleman-Programming/gentleman-guardian-angel.git /tmp/gga
@@ -30,6 +36,11 @@ jobs:
 
       - name: Run AI Review (only changed files)
         shell: bash
+        env:
+          #evita "No provider configured"
+          GGA_PROVIDER: gemini
+
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -e
 
